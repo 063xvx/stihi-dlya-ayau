@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Поэзия для одной души</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--milk:#faf3ea;--paper:#f3e6d8;--rose:#e9c9c6;--wine:#6e2a38;--beige:#d9c3a8;--ink:#4a2a30;--soft:#8a6a6c}
+@media(prefers-color-scheme:dark){:root{--milk:#2a1d1f;--paper:#352528;--rose:#5a3a40;--wine:#e3aeb4;--beige:#6b5446;--ink:#f1e2d8;--soft:#bfa1a0}}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--milk);color:var(--ink);font-family:'EB Garamond',Georgia,serif;font-size:19px;line-height:1.7;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+.wrap{max-width:640px;margin:0 auto;padding:0 24px}
+header{text-align:center;padding:12vh 0 6vh}
+h1{font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:clamp(2.2rem,8vw,3.6rem);line-height:1.1;color:var(--wine);letter-spacing:.01em}
+.sprig{display:block;margin:28px auto;width:120px;color:var(--wine);opacity:.65}
+.dedic{font-style:italic;font-size:1.25rem;color:var(--soft)}
+.dedic b{display:block;font-family:'Cormorant Garamond',serif;font-style:normal;font-weight:500;font-size:1.7rem;color:var(--wine);margin-bottom:4px}
+.btn{font:inherit;font-family:'Cormorant Garamond',serif;font-size:1.15rem;letter-spacing:.04em;color:var(--wine);background:none;border:1px solid var(--wine);padding:12px 30px;border-radius:2px;cursor:pointer;transition:background .4s,color .4s}
+.btn:hover,.btn:focus-visible{background:var(--wine);color:var(--milk);outline:none}
+.btn.small{font-size:1rem;padding:7px 18px;border-color:var(--beige);color:var(--soft)}
+.btn.small:hover{color:var(--milk);background:var(--wine);border-color:var(--wine)}
+.cta{text-align:center;margin:6vh 0}
+nav{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin:0 0 5vh}
+nav button{font:inherit;font-style:italic;background:none;border:0;border-bottom:1px solid transparent;color:var(--soft);cursor:pointer;padding:2px 2px}
+nav button.on{color:var(--wine);border-bottom-color:var(--wine)}
+#stage{min-height:40vh}
+.poem{background:var(--paper);border:1px solid var(--beige);outline:1px solid var(--beige);outline-offset:-9px;padding:48px 34px;text-align:center;position:relative}
+.poem.in{animation:rise 1.4s cubic-bezier(.2,.7,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px);filter:blur(3px)}to{opacity:1;transform:none;filter:none}}
+.poem h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:1.7rem;color:var(--wine);margin-bottom:22px}
+.poem p{white-space:pre-line;font-size:1.12rem}
+.poem .st{margin-bottom:1.2em}
+.cat{font-style:italic;font-size:.9rem;color:var(--soft);margin-top:24px}
+.tools{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.empty{text-align:center;color:var(--soft);font-style:italic;padding:8vh 0}
+section.fav{margin-top:12vh}
+section.fav h3{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:1.8rem;text-align:center;color:var(--wine)}
+.fav .poem{margin-top:22px;padding:34px 24px}
+footer{text-align:center;color:var(--soft);font-style:italic;padding:12vh 0 8vh;font-size:.95rem}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:var(--wine);color:var(--milk);padding:8px 22px;opacity:0;transition:.5s;pointer-events:none;font-style:italic}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+@media(prefers-reduced-motion:reduce){.poem.in{animation:none}*{transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><symbol id="sp" viewBox="0 0 120 30"><g fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"><path d="M4 15 C30 12 45 18 60 15 C75 12 90 18 116 15"/><path d="M40 16c-4-9-10-10-14-9 1 7 7 10 14 9zM80 14c4-9 10-10 14-9-1 7-7 10-14 9zM58 15c-2 7-6 10-10 11 0-6 4-10 10-11zM62 15c2 7 6 10 10 11 0-6-4-10-10-11z"/><circle cx="60" cy="15" r="2.5"/></g></symbol></svg>
+<div class="wrap">
+<header>
+<h1>Поэзия для одной души</h1>
+<svg class="sprig" viewBox="0 0 120 30" aria-hidden="true"><use href="#sp"/></svg>
+<p class="dedic"><b>Для Аяу.</b>С нежностью, которой не всегда хватает слов.</p>
+</header>
+<div class="cta"><button class="btn" id="open">Открыть стихотворение</button></div>
+<nav id="cats" aria-label="Категории"></nav>
+<main id="stage" aria-live="polite"></main>
+<section class="fav" id="favs" hidden><svg class="sprig" viewBox="0 0 120 30" aria-hidden="true"><use href="#sp"/></svg><h3>Избранное</h3><div id="favlist"></div></section>
+<footer>Сборник дописывается всякий раз, когда я думаю о тебе.</footer>
+</div>
+<div id="toast"></div>
+<script>
+const P=[
+["Расстояние","Скучание",`Между нами столько дорог,\nа я всё равно слышу тебя —\nв чайной ложке, в дальнем звонке,\nв лёгком скрипе вечерних дверей.\n\nМне не нужно ни слов, ни чудес.\nПросто сядь на минуту рядом,\nи пусть мир, что был слишком громким,\nнаконец перейдёт на шёпот.`],
+["Голос","Скучание",`Я скучаю по голосу твоему,\nпо тому, как он входит в тишину,\nне стучась, словно знает дорогу,\nи в комнате становится теплее.\n\nВсе слова на свете устроены просто:\nони делятся на те, что сказала ты,\nи на те, что я жду.`],
+["Белая ночь","Скучание",`Не спится. Окно приоткрыто,\nи город шуршит, как страница.\nЯ думаю о тебе так спокойно,\nкак думают о доме.\n\nНочь длинна, но она не страшна,\nесли знать, что утром\nявится день, в котором\nты есть.`],
+["Невидимая нить","Скучание",`Говорят, что разлука — это пустота.\nНет, это тонкая нить,\nна которой мысли возвращаются к тебе,\nкак к своему берегу.\n\nЯ подхожу к окну,\nи нить слегка дрожит:\nзначит, ты где-то тоже\nпро меня подумала.`],
+["Скоро","Желание увидеться",`Считаю не дни — мгновенья\nдо той минуты, когда\nя увижу, как ты идёшь навстречу,\nи всё лишнее станет далёким.\n\nМы, наверное, будем молчать.\nПотому что у встреч,\nкоторых так долго ждёшь,\nособенный, тихий язык.`],
+["Письмо без адреса","Желание увидеться",`Если бы можно было отправить\nвечер, в котором так много тебя,\nя бы завернул его в тишину\nи положил в твои ладони.\n\nА пока пишу эти строки,\nкак пишут ласточке на крыло:\nвозвращайся ко мне поскорее,\nмоя тихая, моя весна.`],
+["Утро с тобой","Тёплые мгновения",`Утро входит бесшумно, на цыпочках,\nкладёт на подушку свет.\nЯ смотрю, как ты просыпаешься,\nи не хочу ничего больше.\n\nЧашка чая. Окно. Твой смех.\nВсё, что нужно для счастья,\nумещается в этот час\nи ещё остаётся место.`],
+["Дождь","Тёплые мгновения",`Мы идём под одним зонтом,\nи дождь становится музыкой.\nКапли стучат по ткани,\nкак маленький оркестр.\n\nПусть будет мокрой дорога —\nмне хорошо рядом с тобой.\nОт твоего плеча до моего\nвсего одно тёплое «рядом».`],
+["Тихое счастье","Тихое счастье",`Счастье не гремит.\nОно садится на край стола,\nпахнет корицей и книгами\nи молчит вместе с нами.\n\nОно — в том, что ты есть.\nВ том, что можно не спешить.\nВ том, как вечер\nтебя не торопит.`],
+["Как ты улыбаешься","Восхищение",`Есть в твоей улыбке что-то такое,\nчто не умею назвать:\nкак будто в закрытой комнате\nвдруг распахнули окно.\n\nЯ смотрю и учусь у тебя\nдобру без лишних слов,\nсвету без громких слов,\nи тому, как быть настоящей.`],
+["Твои руки","Восхищение",`Я люблю твои руки.\nВ них — осторожность птиц\nи сила тех, кто умеет\nбыть нежным без страха.\n\nВ них нет суеты,\nв них есть ясное «я рядом».\nИ, наверное, этого\nмне достаточно, чтобы верить.`],
+["Свет","Восхищение",`В тебе есть особый свет —\nне яркий, не напоказ,\nа тот, что горит в окне\nтам, где ждут и любят.\n\nПодойдёшь — и в душе тепло.\nУйдёшь — и свет остаётся\nв моём сердце,\nкак след от тёплой руки.`],
+["Благодарность","Благодарность",`Спасибо, что ты появилась.\nНе громко, не по расписанию,\nа так, как приходит весна:\nнезаметно, и вдруг — повсюду.\n\nСпасибо за то, что рядом\nя научился слушать тишину,\nзамечать мелочи,\nи любить без остатка.`],
+["Спасибо тебе","Благодарность",`За то, что ты есть,\nза каждый твой взгляд, за мягкость,\nза слово, сказанное вовремя,\nи за молчание — тоже.\n\nЯ не умею отблагодарить\nбольшими словами.\nПоэтому просто прошу:\nоставайся собой.`],
+["Быть рядом","Желание быть рядом",`Мне не нужно ни золота, ни славы,\nни далёких чудесных стран.\nМне нужно только быть рядом,\nкогда ты читаешь вечером.\n\nЧтобы можно было коснуться плеча,\nуслышать, как переворачивается страница,\nи понять, что вот оно —\nвсё, ради чего я живу.`],
+["Дом","Желание быть рядом",`Дом — это не стены.\nДом — это твой голос в прихожей,\nтвоё «ты пришёл?» вполголоса,\nи свет, оставленный для меня.\n\nГде бы я ни был, я знаю:\nесть место на свете,\nкуда я возвращаюсь\nк тебе.`],
+["Вечер","Тихое счастье",`Вечер медленно складывает свет,\nкак мягкую шаль.\nМы сидим, не говоря ни слова,\nи это лучший разговор.\n\nВ нём нет вопросов и поисков,\nтолько тихое «я здесь»,\nна которое тихо\nотвечаешь «и я».`],
+["Мысли о тебе","Нежность",`Мысли о тебе приходят сами,\nкак птицы к знакомому окну.\nОни не просят хлеба,\nони просто садятся рядом.\n\nИ я, улыбаясь, замираю,\nчтобы их не спугнуть:\nпусть живут во мне долго,\nпока я жив.`],
+["Нежность","Нежность",`Нежность — это не слово.\nЭто как бережно\nпоправить прядь на твоём плече,\nне нарушив покоя.\n\nЭто как смотреть на тебя\nи тихо радоваться,\nчто мир бывает таким:\nтёплым, мягким, твоим.`],
+["Красота","Красота любви",`Любовь — это тихое чудо\nобычных вещей:\nчашки, окна, шагов по лестнице,\nкогда ты возвращаешься.\n\nОна не похожа на бурю.\nОна похожа на лампу,\nкоторую зажигают в сумерках,\nчтобы никто не боялся темноты.`],
+["Сад","Красота любви",`Я представляю наш сад:\nне тот, что растёт на земле,\nа тот, что в сердце,\nгде каждое слово — росток.\n\nГде нежность поливают терпением,\nа радость — тихим смехом.\nИ там всегда весна,\nпотому что там ты.`]
+];
+const C=["Все",...new Set(P.map(p=>p[1]))];
+const $=s=>document.querySelector(s);
+let cat="Все",last=-1,cur=-1,fav=[];
+try{fav=JSON.parse(localStorage.getItem("ayau-fav")||"[]")}catch(e){}
+const save=()=>{try{localStorage.setItem("ayau-fav",JSON.stringify(fav))}catch(e){}};
+const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("show"),1800)}
+function html(i,full){const p=P[i];const st=p[2].split("\n\n").map(s=>`<p class="st">${esc(s)}</p>`).join("");
+return `<h2>${esc(p[0])}</h2>${st}<div class="cat">${esc(p[1])}</div><div class="tools">${full?`<button class="btn small" data-a="fav" data-i="${i}">${fav.includes(i)?"Убрать из избранного":"В избранное"}</button>`:`<button class="btn small" data-a="unfav" data-i="${i}">Убрать</button>`}<button class="btn small" data-a="copy" data-i="${i}">Копировать</button>${full?`<button class="btn small" data-a="next">Ещё одно стихотворение</button>`:""}</div>`}
+function show(){const pool=P.map((_,i)=>i).filter(i=>(cat==="Все"||P[i][1]===cat));
+if(!pool.length)return;
+let c=pool.filter(i=>i!==last);if(!c.length)c=pool;
+const i=c[Math.floor(Math.random()*c.length)];last=cur=i;
+const st=$("#stage");st.innerHTML=`<article class="poem in">${html(i,true)}</article>`;
+$("#open").textContent="Ещё одно стихотворение";
+st.scrollIntoView({behavior:"smooth",block:"start"})}
+function favs(){const s=$("#favs");s.hidden=!fav.length;$("#favlist").innerHTML=fav.map(i=>`<article class="poem">${html(i,false)}</article>`).join("")}
+function cats(){$("#cats").innerHTML=C.map(c=>`<button class="${c===cat?"on":""}" data-c="${c}">${c}</button>`).join("")}
+$("#open").onclick=show;
+$("#cats").onclick=e=>{const c=e.target.dataset.c;if(c){cat=c;cats();show()}};
+document.body.onclick=e=>{const b=e.target.closest("[data-a]");if(!b)return;const a=b.dataset.a,i=+b.dataset.i;
+if(a==="next")show();
+else if(a==="fav"){if(fav.includes(i)){fav=fav.filter(x=>x!==i);toast("Убрано из избранного")}else{fav.push(i);toast("Сохранено в избранном")}save();favs();b.textContent=fav.includes(i)?"Убрать из избранного":"В избранное"}
+else if(a==="unfav"){fav=fav.filter(x=>x!==i);save();favs();toast("Убрано из избранного");if(i===cur){const f=document.querySelector('[data-a="fav"]');if(f)f.textContent="В избранное"}}
+else if(a==="copy"){const t=P[i][0]+"\n\n"+P[i][2]+"\n\n— для Аяу";
+(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).catch(()=>{const x=document.createElement("textarea");x.value=t;document.body.appendChild(x);x.select();try{document.execCommand("copy")}catch(e){}x.remove()}).finally(()=>toast("Стихотворение скопировано"))}};
+cats();favs();
+</script>
+</body>
+</html>
